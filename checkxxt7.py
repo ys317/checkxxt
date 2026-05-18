@@ -4,9 +4,9 @@ from playwright.sync_api import sync_playwright
 
 # ================= 配置区 =================
 # 替换为你企业微信群机器人的 Webhook 地址
-WECOM_WEBHOOK_URL = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=70e639aa-08ce-47d8-8249-2da9eb312120'  
-CHAOXING_PHONE = '13429090779'          # 你的超星账号
-CHAOXING_PWD = 'ypl20060317'            # 你的超星密码
+WECOM_WEBHOOK_URL = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key='  
+CHAOXING_PHONE = ''          # 你的超星账号
+CHAOXING_PWD = ''            # 你的超星密码
 # ==========================================
 
 
