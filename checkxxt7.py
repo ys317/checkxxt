@@ -1,31 +1,25 @@
+import os
 import time
 import requests
 from playwright.sync_api import sync_playwright
 
-# ================= 配置区 =================
-# 是否开启企业微信通知开关 (True: 开启, False: 关闭)
-ENABLE_WECOM_PUSH = False 
-
-# 替换为你企业微信群机器人的 Webhook 地址
-WECOM_WEBHOOK_URL = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key='  
-CHAOXING_PHONE = ''          # 你的超星账号
-CHAOXING_PWD = ''            # 你的超星密码
-# ==========================================
+# ================= 从环境变量读取配置 =================
+ENABLE_WECOM_PUSH = os.environ.get('ENABLE_WECOM_PUSH', 'False').lower() in ('true', '1', 't')
+WECOM_WEBHOOK_URL = os.environ.get('WECOM_WEBHOOK_URL', '')
+CHAOXING_PHONE = os.environ.get('CHAOXING_PHONE', '')
+CHAOXING_PWD = os.environ.get('CHAOXING_PWD', '')
+# ===================================================
 
 
 def send_wecom_push(title, content):
-    """
-    使用企业微信群机器人发送 Markdown 格式的推送
-    """
-    # 如果开关关闭，直接返回
+    """使用企业微信群机器人发送 Markdown 格式的推送"""
     if not ENABLE_WECOM_PUSH:
         return
 
-    if not WECOM_WEBHOOK_URL or 'YOUR_KEY_HERE' in WECOM_WEBHOOK_URL:
-        print(" [提示] 未配置企业微信 Webhook 链接，跳过微信推送。")
+    if not WECOM_WEBHOOK_URL:
+        print(" 未配置企业微信 Webhook 链接，跳过微信推送。")
         return
 
-    # 组装 Markdown 格式文本内容
     markdown_text = f"### <font color=\"warning\">{title}</font>\n\n{content}"
     
     data = {
@@ -37,14 +31,10 @@ def send_wecom_push(title, content):
     
     try:
         response = requests.post(WECOM_WEBHOOK_URL, json=data)
-        
-        # 尝试解析 JSON 前，先判断是不是正常的 200 响应
         if response.status_code != 200:
             print(f" 企业微信请求失败！HTTP 状态码: {response.status_code}")
-            print(f" 服务器返回的原始内容: {response.text}")
             return
 
-        # 尝试解析 JSON
         try:
             result = response.json()
             if result.get('errcode') == 0:
@@ -52,7 +42,7 @@ def send_wecom_push(title, content):
             else:
                 print(f" 企业微信提醒推送失败：{result}")
         except Exception as json_err:
-            print(f" 无法解析服务器返回的数据，原始内容为：\n{response.text}")
+            print(f" 无法解析服务器返回的数据")
             
     except Exception as e:
         print(f" 企业微信推送网络请求异常：{e}")
@@ -84,7 +74,13 @@ def check_chaoxing_homework():
     summary_messages = []
     target_indices = []
 
+    # 检查账号密码是否存在
+    if not CHAOXING_PHONE or not CHAOXING_PWD:
+        print("未配置超星账号或密码，请检查环境变量设置！")
+        return
+
     with sync_playwright() as p:
+        # 在 GitHub Actions 必须 headless=True
         browser = p.chromium.launch(headless=True)
         context = browser.new_context()
         page = context.new_page()
@@ -105,7 +101,12 @@ def check_chaoxing_homework():
             page.fill('input[id="phone"]', CHAOXING_PHONE)
             page.fill('input[id="pwd"]', CHAOXING_PWD)
             page.click('#loginBtn')
-            page.wait_for_url("**/pc/notice/myNotice", timeout=10000)
+            try:
+                page.wait_for_url("**/pc/notice/myNotice", timeout=10000)
+            except:
+                print(" 登录超时或失败，请检查账号密码或验证码拦截情况。")
+                browser.close()
+                return
 
         print(" 已进入收件箱，正在扫描作业通知...")
 
@@ -158,11 +159,9 @@ def check_chaoxing_homework():
                     
                     if lines:
                         print(" 【详细信息】:")
-                        # === 使用 Markdown 格式拼装企业微信消息 ===
                         msg_chunk = f"**{title_text}**\n"
                         for line in lines:
                             print(f"   {line}")
-                            # 用引用语法（>）让作业详情在微信里显得更规整
                             msg_chunk += f"> <font color=\"info\">{line}</font>\n" 
                         summary_messages.append(msg_chunk)
                     else:
@@ -194,7 +193,6 @@ def check_chaoxing_homework():
     if summary_messages:
         if ENABLE_WECOM_PUSH:
             print(" 正在发送企业微信提醒...")
-            # 多条作业之间使用 Markdown 的分割线（---）隔开
             final_push_content = "\n\n---\n\n".join(summary_messages)
             send_wecom_push(
                 title=f"【超星作业提醒】共 {len(target_indices)} 个",
