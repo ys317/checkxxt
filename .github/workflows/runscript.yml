@@ -33,12 +33,15 @@ jobs:
         # 只安装 chromium 内核及 Linux 系统底层依赖以节省 Actions 时间和带宽
         python -m playwright install chromium --with-deps
 
-    - name: 运行超星检测脚本
+    - name: 安装虚拟显示器工具 (Xvfb)
+      run: sudo apt-get update && sudo apt-get install -y xvfb
+
+    - name: 运行超星检测脚本 (使用虚拟屏幕)
       env:
-        # 将 GitHub Secrets 中的安全隐私变量映射进系统环境变量
         ENABLE_WECOM_PUSH: ${{ secrets.ENABLE_WECOM_PUSH }}
         WECOM_URL: ${{ secrets.WECOM_URL }}
         PHONE: ${{ secrets.PHONE }}
         PWD: ${{ secrets.PWD }}
       run: |
-        python checkxxt7.py
+        # 使用 xvfb-run 启动一个 1280x1024 的虚拟屏幕来运行你的脚本
+        xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" python checkxxt7.py
