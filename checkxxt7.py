@@ -8,7 +8,7 @@ from playwright_stealth import Stealth
 ENABLE_WECOM_PUSH = os.environ.get('ENABLE_WECOM_PUSH', 'False').lower() in ('true', '1', 't')
 WECOM_WEBHOOK_URL = os.environ.get('WECOM_URL', '')
 CHAOXING_PHONE = os.environ.get('PHONE', '')
-CHAOXING_PWD = os.environ.get('PWD', '')
+CHAOXING_PWD = os.environ.get('PASSWORD', '')
 # ===================================================
 
 def debug_print_credentials():
