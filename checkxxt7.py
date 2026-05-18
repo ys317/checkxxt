@@ -102,12 +102,9 @@ def check_chaoxing_homework():
             page.fill('input[id="pwd"]', CHAOXING_PWD)
             page.click('#loginBtn')
             try:
-                page.wait_for_url("**/pc/notice/myNotice", timeout=15000) 
-            except Exception as e:
-                print(" 登录超时或失败！正在截图保存现场...")
-                # 截图保存当前页面状态
-                page.screenshot(path="login_error.png", full_page=True)
-                print(" 截图已保存为 login_error.png。脚本退出。")
+                page.wait_for_url("**/pc/notice/myNotice", timeout=10000)
+            except:
+                print(" 登录超时或失败，请检查账号密码或验证码拦截情况。")
                 browser.close()
                 return
 
