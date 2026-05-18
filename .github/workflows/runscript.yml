@@ -26,7 +26,7 @@ jobs:
     - name: 安装 Playwright 浏览器内核
       run: |
         # 只安装 chromium 内核以节省 Actions 时间和带宽
-        playwright install chromium --with-deps
+        python -m playwright install chromium --with-deps
 
     - name: 运行超星检测脚本
       env:
