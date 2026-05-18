@@ -5,9 +5,9 @@ from playwright.sync_api import sync_playwright
 
 # ================= 从环境变量读取配置 =================
 ENABLE_WECOM_PUSH = os.environ.get('ENABLE_WECOM_PUSH', 'False').lower() in ('true', '1', 't')
-WECOM_WEBHOOK_URL = os.environ.get('WECOM_WEBHOOK_URL', '')
-CHAOXING_PHONE = os.environ.get('CHAOXING_PHONE', '')
-CHAOXING_PWD = os.environ.get('CHAOXING_PWD', '')
+WECOM_WEBHOOK_URL = os.environ.get('WECOM_URL', '')
+CHAOXING_PHONE = os.environ.get('PHONE', '')
+CHAOXING_PWD = os.environ.get('PWD', '')
 # ===================================================
 
 

@@ -13,10 +13,10 @@
 
 | **Name (名称)**     | **Value (填入的内容)**            | **说明**                                     |
 | ------------------- | --------------------------------- | -------------------------------------------- |
-| `CHAOXING_PHONE`    | `138xxxx`                         | 你的超星手机号账号                           |
-| `CHAOXING_PWD`      | `你的密码`                        | 你的超星登录密码                             |
+| `PHONE`             | `138xxxx`                         | 你的超星手机号账号                           |
+| `PWD`               | `你的密码`                        | 你的超星登录密码                             |
 | `ENABLE_WECOM_PUSH` | `True`                            | 是否开启企业微信推送（填 `True` 或 `False`） |
-| `WECOM_WEBHOOK_URL` | `https://qyapi.weixin.qq.com/...` | 你的企业微信机器人完整的 Webhook 链接        |
+| `WECOM_URL`         | `https://qyapi.weixin.qq.com/...` | 你的企业微信机器人完整的 Webhook 链接        |
 
 ### 通过企业微信发送消息给手机（可选）
 
