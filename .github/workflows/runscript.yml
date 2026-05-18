@@ -1,4 +1,4 @@
-name: Chaoxing Homework Checker
+name: 学习通作业检测
 
 on:
   push:
@@ -45,10 +45,3 @@ jobs:
       run: |
         # 使用 xvfb-run 启动一个 1280x1024 的虚拟屏幕来运行你的脚本
         xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" python checkxxt7.py
-    - name: 上传错误截图 (保留查错能力)
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-            name: error-screenshot
-            path: login_error.png
-            retention-days: 1
