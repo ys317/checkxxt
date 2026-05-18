@@ -41,7 +41,7 @@ jobs:
         ENABLE_WECOM_PUSH: ${{ secrets.ENABLE_WECOM_PUSH }}
         WECOM_URL: ${{ secrets.WECOM_URL }}
         PHONE: ${{ secrets.PHONE }}
-        PWD: ${{ secrets.PWD }}
+        PASSWORD: ${{ secrets.PASSWORD }}
       run: |
         # 使用 xvfb-run 启动一个 1280x1024 的虚拟屏幕来运行你的脚本
         xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" python checkxxt7.py
