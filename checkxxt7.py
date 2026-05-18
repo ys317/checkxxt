@@ -2,6 +2,7 @@ import os
 import time
 import requests
 from playwright.sync_api import sync_playwright
+from playwright_stealth import stealth_sync
 
 # ================= 从环境变量读取配置 =================
 ENABLE_WECOM_PUSH = os.environ.get('ENABLE_WECOM_PUSH', 'False').lower() in ('true', '1', 't')
@@ -83,7 +84,7 @@ def check_chaoxing_homework():
         browser = p.chromium.launch(headless=False)
         context = browser.new_context()
         page = context.new_page()
-
+        stealth_sync(page)
         inbox_url = "https://notice.chaoxing.com/pc/notice/myNotice"
         
         print(" 正在访问超星通知中心...")
