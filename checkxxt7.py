@@ -72,7 +72,6 @@ def extract_notice_paragraphs(detail_page):
 
 
 def check_chaoxing_homework():
-    print(CHAOXING_PWD)
     summary_messages = []
     target_indices = []
 
