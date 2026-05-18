@@ -21,11 +21,16 @@ jobs:
     - name: 设置 Python 环境
       uses: actions/setup-python@v4
       with:
-        python-python-version: '3.10'
+        python-version: '3.10' # 修正了这里的参数名
+
+    - name: 安装 Python 依赖库
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests playwright  # 直接在这里安装你需要的库，不再需要 requirements.txt
 
     - name: 安装 Playwright 浏览器内核
       run: |
-        # 只安装 chromium 内核以节省 Actions 时间和带宽
+        # 只安装 chromium 内核及 Linux 系统底层依赖以节省 Actions 时间和带宽
         python -m playwright install chromium --with-deps
 
     - name: 运行超星检测脚本
