@@ -80,8 +80,7 @@ def check_chaoxing_homework():
         return
 
     with sync_playwright() as p:
-        # 在 GitHub Actions 必须 headless=True
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=False)
         context = browser.new_context()
         page = context.new_page()
 
