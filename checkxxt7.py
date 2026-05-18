@@ -3,6 +3,9 @@ import requests
 from playwright.sync_api import sync_playwright
 
 # ================= 配置区 =================
+# 是否开启企业微信通知开关 (True: 开启, False: 关闭)
+ENABLE_WECOM_PUSH = False 
+
 # 替换为你企业微信群机器人的 Webhook 地址
 WECOM_WEBHOOK_URL = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key='  
 CHAOXING_PHONE = ''          # 你的超星账号
@@ -14,6 +17,10 @@ def send_wecom_push(title, content):
     """
     使用企业微信群机器人发送 Markdown 格式的推送
     """
+    # 如果开关关闭，直接返回
+    if not ENABLE_WECOM_PUSH:
+        return
+
     if not WECOM_WEBHOOK_URL or 'YOUR_KEY_HERE' in WECOM_WEBHOOK_URL:
         print(" [提示] 未配置企业微信 Webhook 链接，跳过微信推送。")
         return
@@ -75,9 +82,10 @@ def extract_notice_paragraphs(detail_page):
 
 def check_chaoxing_homework():
     summary_messages = []
+    target_indices = []
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
+        browser = p.chromium.launch(headless=True)
         context = browser.new_context()
         page = context.new_page()
 
@@ -182,15 +190,19 @@ def check_chaoxing_homework():
         print(" 所有作业通知提取完毕！")
         browser.close()
 
-    # 如果有抓取到作业通知，则发送企业微信推送
+    # ====== 推送控制逻辑 ======
     if summary_messages:
-        print(" 正在发送企业微信提醒...")
-        # 多条作业之间使用 Markdown 的分割线（---）隔开
-        final_push_content = "\n\n---\n\n".join(summary_messages)
-        send_wecom_push(
-            title=f"【超星作业提醒】共 {len(target_indices)} 个",
-            content=final_push_content
-        )
+        if ENABLE_WECOM_PUSH:
+            print(" 正在发送企业微信提醒...")
+            # 多条作业之间使用 Markdown 的分割线（---）隔开
+            final_push_content = "\n\n---\n\n".join(summary_messages)
+            send_wecom_push(
+                title=f"【超星作业提醒】共 {len(target_indices)} 个",
+                content=final_push_content
+            )
+        else:
+            print(" 企业微信通知开关 (ENABLE_WECOM_PUSH) 已关闭，本次抓取结果不进行推送。")
+
 
 if __name__ == "__main__":
     check_chaoxing_homework()
