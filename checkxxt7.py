@@ -2,7 +2,7 @@ import os
 import time
 import requests
 from playwright.sync_api import sync_playwright
-from playwright_stealth import stealth_sync
+from playwright_stealth import Stealth
 
 # ================= 从环境变量读取配置 =================
 ENABLE_WECOM_PUSH = os.environ.get('ENABLE_WECOM_PUSH', 'False').lower() in ('true', '1', 't')
@@ -80,11 +80,11 @@ def check_chaoxing_homework():
         print("未配置超星账号或密码，请检查环境变量设置！")
         return
 
-    with sync_playwright() as p:
+    with Stealth().use_sync(sync_playwright()) as p:
         browser = p.chromium.launch(headless=False)
         context = browser.new_context()
         page = context.new_page()
-        stealth_sync(page)
+        
         inbox_url = "https://notice.chaoxing.com/pc/notice/myNotice"
         
         print(" 正在访问超星通知中心...")
