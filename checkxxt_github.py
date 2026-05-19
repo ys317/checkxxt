@@ -1,6 +1,7 @@
 import time
 import re
 import requests
+import os
 from datetime import datetime, date, timedelta
 from playwright.sync_api import sync_playwright
 
