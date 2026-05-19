@@ -38,4 +38,4 @@ jobs:
           PHONE: ${{ secrets.PHONE }}
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
-          python checkxxt_Github.py
+          python checkxxt_github.py

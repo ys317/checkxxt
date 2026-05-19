@@ -24,7 +24,7 @@
 
 #### 设定Windows任务计划程序
 
-##### 第一步：下载或复制checkxxt_Windows.py到你的电脑
+##### 第一步：下载或复制checkxxt_windows.py到你的电脑
 
 ##### 第二步：准备好你的路径
 
