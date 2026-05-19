@@ -19,6 +19,7 @@
 | `PASSWORD`               | `你的密码`                        | 你的超星登录密码                             |
 | `ENABLE_WECOM_PUSH` | `True`                            | 是否开启企业微信推送（填 `True` 或 `False`） |
 | `WECOM_URL`         | `https://qyapi.weixin.qq.com/...` | 你的企业微信机器人完整的 Webhook 链接        |
+<img width="1851" height="1290" alt="P1" src="https://github.com/user-attachments/assets/d778cc62-3931-41a9-9075-d6e372698c2e" />
 
 
 
@@ -44,6 +45,7 @@
    - **程序或脚本**：填入你的 **Python 解释器路径**（比如 `C:\Python310\python.exe`）。
    - **添加参数(可选)**：填入你的 **Python 脚本绝对路径**（比如 `D:\MyScripts\auto_task.py`）。
 7. **完成**：点击“下一步”，然后点击“完成”。
+<img width="564" height="626" alt="P2" src="https://github.com/user-attachments/assets/bf106d77-b453-45dc-bed0-200d1d269d9d" />
 
 
 
