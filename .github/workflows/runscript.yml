@@ -33,6 +33,7 @@ jobs:
 
       - name: 运行超星检测脚本
         env:
+          TZ: Asia/Shanghai
           ENABLE_WECOM_PUSH: ${{ secrets.ENABLE_WECOM_PUSH }}
           WECOM_URL: ${{ secrets.WECOM_URL }}
           PHONE: ${{ secrets.PHONE }}
