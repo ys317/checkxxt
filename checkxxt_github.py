@@ -98,7 +98,7 @@ def check_chaoxing_homework():
         results = []
 
         # ---- 第二步：逐个点击提取 ----
-        for idx, item_data in dl_items + hw_items[:10]:
+        for idx, item_data in dl_items + hw_items[:20]:
             try:
                 title = item_data['text']
                 is_dl = idx in [x[0] for x in dl_items]
